@@ -12,8 +12,23 @@
     <artifactId>transport-api</artifactId>
     <packaging>jar</packaging>
 
-    <dependencies>
+    <properties>
+        <common.version>0.0.1-SNAPSHOT</common.version>
+        <serialize-api.version>0.0.1-SNAPSHOT</serialize-api.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.stone.tc</groupId>
+            <artifactId>common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.stone.tc</groupId>
+            <artifactId>serialize-api</artifactId>
+            <version>${serialize-api.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
