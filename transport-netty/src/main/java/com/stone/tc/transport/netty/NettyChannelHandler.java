@@ -36,7 +36,6 @@ public class NettyChannelHandler extends ChannelHandlerAdapter {
                 connection.close();
             }
         }
-        super.exceptionCaught(ctx, cause);
     }
 
 
@@ -51,12 +50,12 @@ public class NettyChannelHandler extends ChannelHandlerAdapter {
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Connection connection = connectionManager.removeConnection(getConnectionId(ctx.channel()));
         if (connection != null) {
-            connection.onMessage(evt);
+            connection.onMessage(msg);
         }
-        super.userEventTriggered(ctx, evt);
+        super.channelRead(ctx, msg);
     }
 
 

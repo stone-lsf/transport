@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author shifeng.luo
@@ -34,6 +36,7 @@ public class NettyClient implements TransportClient {
     private final int timeout;
     private final Bootstrap bootstrap;
     private final ConnectionManager connectionManager = new DefaultConnectionManager();
+    private AtomicBoolean closed = new AtomicBoolean(false);
 
     public NettyClient(NettyTransportContext context) {
         this.timeout = context.getTimeout();
@@ -99,16 +102,22 @@ public class NettyClient implements TransportClient {
 
     @Override
     public void close(int timeout) {
-
+        if (closed.compareAndSet(false, true)) {
+            connectionManager.closeAll();
+            if (bootstrap.group() != null) {
+                bootstrap.group().shutdownGracefully(2, timeout, TimeUnit.MILLISECONDS);
+            }
+            log.info("successful close netty client");
+        }
     }
 
     @Override
     public boolean isClosed() {
-        return false;
+        return closed.get();
     }
 
     @Override
     public void close() {
-
+        close(10 * 1000);
     }
 }

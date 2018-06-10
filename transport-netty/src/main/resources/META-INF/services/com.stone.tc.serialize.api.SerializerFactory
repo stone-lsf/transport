@@ -1,0 +1,2 @@
+protostuff=com.stone.tc.serialize.protostuff.ProtoSerializerFactory
+json=com.stone.tc.serialize.json.JsonSerializeFactory

@@ -13,7 +13,7 @@ public interface ConnectionManager {
      *
      * @param callback 请求回调
      */
-    void registerMessageHandler(RequestCallback callback);
+    void register(RequestCallback callback);
 
     /**
      * 添加连接，当server收到客户端的连接请求是调用
@@ -48,5 +48,5 @@ public interface ConnectionManager {
     /**
      * 关闭所有连接
      */
-    void closeAll() throws Exception;
+    void closeAll();
 }
